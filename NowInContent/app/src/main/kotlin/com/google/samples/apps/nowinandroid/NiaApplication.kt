@@ -41,9 +41,11 @@ class NiaApplication : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
 
+        //디버그 함수
         setStrictModePolicy()
 
-        // Initialize Sync; the system responsible for keeping data in the app up to date.
+        // Initialize Sync;
+        // the system responsible for keeping data in the app up to date.
         Sync.initialize(context = this)
         profileVerifierLogger()
     }
@@ -51,6 +53,7 @@ class NiaApplication : Application(), ImageLoaderFactory {
     override fun newImageLoader(): ImageLoader = imageLoader.get()
 
     /**
+     * 디버그
      * Return true if the application is debuggable.
      */
     private fun isDebuggable(): Boolean {
