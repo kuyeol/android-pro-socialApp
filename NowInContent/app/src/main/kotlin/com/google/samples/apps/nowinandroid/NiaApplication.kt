@@ -42,7 +42,7 @@ class NiaApplication : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
 
-        //디버그 함수
+        //디버그용 함수
         setStrictModePolicy()
 
         // Initialize Sync;
