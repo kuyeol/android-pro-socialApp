@@ -22,8 +22,14 @@ import androidx.work.WorkManager
 import com.google.samples.apps.nowinandroid.sync.workers.SyncWorker
 
 object Sync {
+
     // This method is initializes sync, the process that keeps the app's data current.
     // It is called from the app module's Application.onCreate() and should be only done once.
+
+  /**
+   * 이 메서드는 앱의 데이터를 최신 상태로 유지하는 프로세스인 동기화를 초기화합니다.
+   *  앱 모듈의 Application.onCreate()에서 호출되며 한 번만 수행되어야 합니다.
+   */
     fun initialize(context: Context) {
         WorkManager.getInstance(context).apply {
             // Run sync on app startup and ensure only one sync worker runs at any time

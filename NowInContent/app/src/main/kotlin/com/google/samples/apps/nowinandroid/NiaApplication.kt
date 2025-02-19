@@ -22,8 +22,10 @@ import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy.Builder
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+
 import com.google.samples.apps.nowinandroid.sync.initializers.Sync
 import com.google.samples.apps.nowinandroid.util.ProfileVerifierLogger
+
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -33,45 +35,54 @@ import javax.inject.Inject
 @HiltAndroidApp
 class NiaApplication : Application(), ImageLoaderFactory {
 
-    @Inject
-    lateinit var imageLoader: dagger.Lazy<ImageLoader>
+  @Inject lateinit var imageLoader: dagger.Lazy<ImageLoader>
 
-    @Inject
-    lateinit var profileVerifierLogger: ProfileVerifierLogger
+  @Inject lateinit var profileVerifierLogger: ProfileVerifierLogger
 
-    override fun onCreate() {
-        super.onCreate()
+  override fun onCreate() {
+    super.onCreate()
 
-        //디버그용 함수
-        setStrictModePolicy()
-
-        // Initialize Sync;
-        // the system responsible for keeping data in the app up to date.
-        Sync.initialize(context = this)
-        profileVerifierLogger()
-    }
-
-    override fun newImageLoader(): ImageLoader = imageLoader.get()
+    // Initialize Sync;
+    // the system responsible for keeping data in the app up to date.
 
     /**
-     * 디버그
-     * Return true if the application is debuggable.
+     *  이 메서드는 앱의 데이터를 최신 상태로 유지하는 프로세스인 동기화를 초기화합니다.
+     *  앱 모듈의 Application.onCreate()에서 호출되며 한 번만 수행되어야 합니다.
      */
-    private fun isDebuggable(): Boolean {
-        return 0 != applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE
-    }
+    Sync.initialize(context = this)
 
     /**
-     * Set a thread policy that detects all potential problems on the main thread, such as network
-     * and disk access.
-     *
-     * If a problem is found, the offending call will be logged and the application will be killed.
+     * 사용자 기본 프로필 관리
      */
-    private fun setStrictModePolicy() {
-        if (isDebuggable()) {
-            StrictMode.setThreadPolicy(
-                Builder().detectAll().penaltyLog().penaltyDeath().build(),
-            )
-        }
+    profileVerifierLogger()
+
+    //디버그용 함수
+    setStrictModePolicy()
+  }
+
+  // 어플리케이션 범위 이미지 로드 미 적용 시 로드 불가
+  //이미지로더팩토리를 헤더에 구현 선언한 뒤 함수 구현
+  override fun newImageLoader(): ImageLoader = imageLoader.get()
+
+  /**
+   * 디버그
+   * Return true if the application is debuggable.
+   */
+  private fun isDebuggable(): Boolean {
+    return 0 != applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE
+  }
+
+  /**
+   * Set a thread policy that detects all potential problems on the main thread, such as network
+   * and disk access.
+   *
+   * If a problem is found, the offending call will be logged and the application will be killed.
+   */
+  private fun setStrictModePolicy() {
+    if (isDebuggable()) {
+      StrictMode.setThreadPolicy(
+        Builder().detectAll().penaltyLog().penaltyDeath().build(),
+      )
     }
+  }
 }
