@@ -32,6 +32,7 @@ import javax.inject.Inject
  */
 @HiltAndroidApp
 class NiaApplication : Application(), ImageLoaderFactory {
+
     @Inject
     lateinit var imageLoader: dagger.Lazy<ImageLoader>
 
