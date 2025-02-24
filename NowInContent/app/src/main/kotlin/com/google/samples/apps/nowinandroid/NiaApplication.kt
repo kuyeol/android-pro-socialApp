@@ -42,15 +42,12 @@ class NiaApplication : Application(), ImageLoaderFactory {
   override fun onCreate() {
     super.onCreate()
 
-    // Initialize Sync;
-    // the system responsible for keeping data in the app up to date.
 
-    /**
+    /**    // Initialize Sync; the system responsible for keeping data in the app up to date.
      *  이 메서드는 앱의 데이터를 최신 상태로 유지하는 프로세스인 동기화를 초기화합니다.
      *  앱 모듈의 Application.onCreate()에서 호출되며 한 번만 수행되어야 합니다.
      */
     Sync.initialize(context = this)
-
     /**
      * 사용자 기본 프로필 관리
      */

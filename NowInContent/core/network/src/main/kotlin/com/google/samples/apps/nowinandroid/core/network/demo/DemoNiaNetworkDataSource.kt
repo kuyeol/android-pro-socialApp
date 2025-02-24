@@ -77,7 +77,7 @@ class DemoNiaNetworkDataSource @Inject constructor(
 
     companion object {
         private const val NEWS_ASSET = "news.json"
-        private const val TOPICS_ASSET = "topics.json"
+        private const val TOPICS_ASSET = "http://182.218.135.247:8081/android/topic/list"
     }
 }
 

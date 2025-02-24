@@ -95,7 +95,7 @@ class MainActivity : ComponentActivity() {
                 combine(
                     isSystemInDarkTheme(),
                     viewModel.uiState,
-                ) { systemDark: Boolean, uiState: MainActivityUiState ->
+                ) { systemDark, uiState ->
                     ThemeSettings(
                         darkTheme = uiState.shouldUseDarkTheme(systemDark),
                         androidTheme = uiState.shouldUseAndroidTheme,
