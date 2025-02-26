@@ -26,6 +26,7 @@ import com.google.samples.apps.nowinandroid.core.network.model.NetworkChangeList
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkNewsResource
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkTopic
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -54,9 +55,15 @@ class DemoNiaNetworkDataSource @Inject constructor(
   override suspend fun getNewsResourceChangeList(after: Int?): List<NetworkChangeList> =
     getNewsResources().mapToChangeList(NetworkNewsResource::id)
 
+
+
   /**
    * Get data from the given JSON [fileName].
    */
+
+
+
+
   @OptIn(ExperimentalSerializationApi::class)
   private suspend inline fun <reified T> getDataFromJsonFile(fileName: String): List<T> =
     withContext(ioDispatcher) {

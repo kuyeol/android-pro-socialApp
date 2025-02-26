@@ -23,6 +23,7 @@ import coil.decode.SvgDecoder
 import coil.util.DebugLogger
 import com.google.samples.apps.nowinandroid.core.network.BuildConfig
 import com.google.samples.apps.nowinandroid.core.network.demo.DemoAssetManager
+import com.google.samples.apps.nowinandroid.core.network.retrofit.RetrofitNiaNetworkApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,13 +31,46 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.Call
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
+
+
+  //todo: start
+  @Provides
+  @Singleton
+  fun provideRetrofit(okHttpClient: OkHttpClient, networkJson: Json): Retrofit {
+    return Retrofit.Builder()
+      .baseUrl("https://your-backend-api.com/") // 실제 URL로 변경
+      .client(okHttpClient)
+      .addConverterFactory(
+        networkJson.asConverterFactory("application/json".toMediaType())
+      )
+      .build()
+  }
+
+  @Provides
+  @Singleton
+  fun provideNiaNetworkApi(retrofit: Retrofit): RetrofitNiaNetworkApi {
+    return retrofit.create(RetrofitNiaNetworkApi::class.java)
+  }
+  //todo: end
+
+
+  @Provides
+  @Singleton
+  fun providesDemoAssetManager(
+    @ApplicationContext context: Context,
+  ): DemoAssetManager = DemoAssetManager(context.assets::open)
+
+
 
   @Provides
   @Singleton
@@ -44,11 +78,6 @@ internal object NetworkModule {
     ignoreUnknownKeys = true
   }
 
-  @Provides
-  @Singleton
-  fun providesDemoAssetManager(
-    @ApplicationContext context: Context,
-  ): DemoAssetManager = DemoAssetManager(context.assets::open)
 
   @Provides
   @Singleton

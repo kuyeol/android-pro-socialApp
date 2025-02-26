@@ -19,6 +19,7 @@ package com.google.samples.apps.nowinandroid.core.network.retrofit
 import androidx.tracing.trace
 import com.google.samples.apps.nowinandroid.core.network.BuildConfig
 import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
+import com.google.samples.apps.nowinandroid.core.network.api.TopicApi
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkChangeList
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkNewsResource
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkTopic
@@ -36,7 +37,7 @@ import javax.inject.Singleton
 /**
  * Retrofit API declaration for NIA Network API
  */
-private interface RetrofitNiaNetworkApi {
+interface RetrofitNiaNetworkApi {
   @GET(value = "topics")
   suspend fun getTopics(
     @Query("id") ids: List<String>?,
@@ -58,36 +59,33 @@ private interface RetrofitNiaNetworkApi {
   ): List<NetworkChangeList>
 }
 
-private const val NIA_BASE_URL = "http://182.218.135.247:8081/android"
-
 /**
  * Wrapper for data provided from the [NIA_BASE_URL]
  */
 @Serializable
-private data class NetworkResponse<T>(
+data class NetworkResponse<T>(
   val data: T,
 )
+
+private const val NIA_BASE_URL = "http://182.218.135.247:8081/android"
 
 /**
  * [Retrofit] backed [NiaNetworkDataSource]
  */
 @Singleton
-internal class RetrofitNiaNetwork @Inject constructor(
+class RetrofitNiaNetwork @Inject constructor(
   networkJson: Json,
   okhttpCallFactory: dagger.Lazy<Call.Factory>,
 ) : NiaNetworkDataSource {
 
+
   private val networkApi = trace("RetrofitNiaNetwork") {
-    Retrofit.Builder()
-      .baseUrl(NIA_BASE_URL)
+    Retrofit.Builder().baseUrl(NIA_BASE_URL)
       // We use callFactory lambda here with dagger.Lazy<Call.Factory>
       // to prevent initializing OkHttp on the main thread.
-      .callFactory { okhttpCallFactory.get().newCall(it) }
-      .addConverterFactory(
+      .callFactory { okhttpCallFactory.get().newCall(it) }.addConverterFactory(
         networkJson.asConverterFactory("application/json".toMediaType()),
-      )
-      .build()
-      .create(RetrofitNiaNetworkApi::class.java)
+      ).build().create(RetrofitNiaNetworkApi::class.java)
   }
 
   override suspend fun getTopics(ids: List<String>?): List<NetworkTopic> =

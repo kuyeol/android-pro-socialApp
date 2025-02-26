@@ -16,8 +16,14 @@
 
 package com.google.samples.apps.nowinandroid.core.network.demo
 
+import com.google.samples.apps.nowinandroid.core.model.data.Topic
 import java.io.InputStream
 
 fun interface DemoAssetManager {
   fun open(fileName: String): InputStream
+
+}
+
+fun interface DemoApi{
+  fun getDemoTopicApis(ids: String) : List<Topic>
 }
