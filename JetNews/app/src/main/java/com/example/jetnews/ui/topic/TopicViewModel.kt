@@ -13,7 +13,7 @@ class TopicViewModel(
 
   private val topicRepository = TopicRepository()
 
-  val BACK_END: String = "http://10.0.2.2:8080"
+  val BACK_END: String = "http://182.218.135.247:8081/android"
 
   init {
 
