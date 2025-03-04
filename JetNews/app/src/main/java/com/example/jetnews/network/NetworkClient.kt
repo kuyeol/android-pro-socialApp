@@ -3,6 +3,7 @@ package com.example.jetnews.network
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 class NetworkClient {
 
   companion object {
