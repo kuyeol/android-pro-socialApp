@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.jetcaster.ui
+package com.example.jetcaster.Activity
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -35,7 +35,7 @@ import androidx.navigation.compose.rememberNavController
 
 
 
-class ActivityState
+
 
 /**
  * List of screens for [JetcasterApp]
@@ -63,10 +63,10 @@ fun rememberJetcasterAppState(
     navController: NavHostController = rememberNavController(),
     context: Context = LocalContext.current
 ) = remember(navController, context) {
-  JetcasterActivityState(navController, context)
+  AppState(navController, context)
 }
 
-class JetcasterActivityState(
+class AppState(
     val navController: NavHostController,
     private val context: Context
 ) {

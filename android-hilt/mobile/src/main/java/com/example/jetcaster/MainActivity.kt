@@ -20,11 +20,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
-import com.example.jetcaster.ui.ActivityController
-import com.example.jetcaster.ui.TextController
-import com.example.jetcaster.ui.UiController
+import com.example.jetcaster.Activity.ActivityController
 import com.example.jetcaster.ui.theme.JetcasterTheme
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,16 +36,11 @@ class MainActivity : ComponentActivity() {
       val displayFeatures = calculateDisplayFeatures(this)
 
       JetcasterTheme {
-        Column {
-          Text("Hello World")
-          TextController(
-            "헬로우"
-          )
-        }
 
         ActivityController(
           displayFeatures
         )
+
       }
     }
   }

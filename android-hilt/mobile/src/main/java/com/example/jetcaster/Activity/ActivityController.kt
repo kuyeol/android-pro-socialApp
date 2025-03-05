@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.jetcaster.ui
+package com.example.jetcaster.Activity
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.scaleOut
@@ -34,32 +34,26 @@ import com.example.jetcaster.R
 class ActivityController
 
 
-@Composable
-fun TextController(
-  str : String
-) {
-  Text(text = "Hello World")
-  Text(text = str)
-
-}
 
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun ActivityController(
   displayFeatures: List<DisplayFeature>,
-  appState:JetcasterActivityState = rememberJetcasterAppState()
+  appState: AppState = rememberJetcasterAppState()
 ) {
   val adaptiveInfo = currentWindowAdaptiveInfo()
   if (appState.isOnline) {
     NavHost(
       navController = appState.navController,
       startDestination = Screen.Home.route,
+
       popExitTransition = { scaleOut(targetScale = 0.9f) },
       popEnterTransition = { EnterTransition.None }
     ) {
 
-      composable(Screen.Home.route) { backStackEntry ->
+      composable(Screen.Home.route) {
+        backStackEntry ->
         Text("Home")
       }
       composable(Screen.Player.route) {
