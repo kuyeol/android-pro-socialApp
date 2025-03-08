@@ -1,6 +1,12 @@
 package com.ung.feedback
 
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
 
-class AndroidApplication  {
+@HiltAndroidApp
+class AndroidApplication  : Application()  {
+
+
+
 }

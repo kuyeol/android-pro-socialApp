@@ -30,18 +30,18 @@ import androidx.tv.material3.Text
 
 @Composable
 internal fun ButtonWithIcon(
-    label: String,
-    icon: ImageVector,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    scale: ButtonScale = ButtonDefaults.scale(),
+  label: String,
+  icon: ImageVector,
+  onClick: () -> Unit,
+  modifier: Modifier = Modifier,
+  scale: ButtonScale = ButtonDefaults.scale(),
 ) {
-    Button(onClick = onClick, modifier = modifier, scale = scale) {
-        Icon(
-            icon,
-            contentDescription = null,
-        )
-        Spacer(modifier = Modifier.width(6.dp))
-        Text(text = label)
-    }
+  Button(onClick = onClick, modifier = modifier, scale = scale) {
+    Icon(
+      icon,
+      contentDescription = null,
+    )
+    Spacer(modifier = Modifier.width(6.dp))
+    Text(text = label)
+  }
 }

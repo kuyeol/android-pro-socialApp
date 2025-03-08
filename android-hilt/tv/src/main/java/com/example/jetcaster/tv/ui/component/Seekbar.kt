@@ -41,56 +41,54 @@ import java.time.Duration
 
 @Composable
 internal fun Seekbar(
-    timeElapsed: Duration,
-    length: Duration,
-    modifier: Modifier = Modifier,
-    onMoveLeft: () -> Unit = {},
-    onMoveRight: () -> Unit = {},
-    knobSize: Dp = 8.dp,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    color: Color = MaterialTheme.colorScheme.onSurface,
+  timeElapsed: Duration,
+  length: Duration,
+  modifier: Modifier = Modifier,
+  onMoveLeft: () -> Unit = {},
+  onMoveRight: () -> Unit = {},
+  knobSize: Dp = 8.dp,
+  interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+  color: Color = MaterialTheme.colorScheme.onSurface,
 ) {
-    val brush = SolidColor(color)
-    val isFocused by interactionSource.collectIsFocusedAsState()
-    val outlineSize = knobSize * 1.5f
-    Box(
-        modifier
-            .drawWithCache {
-                onDrawBehind {
-                    val knobRadius = knobSize.toPx() / 2
+  val brush = SolidColor(color)
+  val isFocused by interactionSource.collectIsFocusedAsState()
+  val outlineSize = knobSize * 1.5f
+  Box(modifier
+    .drawWithCache {
+      onDrawBehind {
+        val knobRadius = knobSize.toPx() / 2
 
-                    val start = Offset.Zero.copy(y = knobRadius)
-                    val end = start.copy(x = size.width)
+        val start = Offset.Zero.copy(y = knobRadius)
+        val end = start.copy(x = size.width)
 
-                    val knobCenter = start.copy(
-                        x = timeElapsed.seconds.toFloat() / length.seconds.toFloat() * size.width
-                    )
-                    drawLine(
-                        brush, start, end,
-                    )
-                    if (isFocused) {
-                        val outlineColor = color.copy(alpha = 0.6f)
-                        drawCircle(outlineColor, outlineSize.toPx() / 2, knobCenter)
-                    }
-                    drawCircle(brush, knobRadius, knobCenter)
-                }
-            }
-            .height(outlineSize)
-            .focusable(true, interactionSource)
-            .onKeyEvent {
-                when {
-                    it.type == KeyEventType.KeyUp && it.key == Key.DirectionLeft -> {
-                        onMoveLeft()
-                        true
-                    }
+        val knobCenter = start.copy(
+          x = timeElapsed.seconds.toFloat() / length.seconds.toFloat() * size.width
+        )
+        drawLine(
+          brush, start, end,
+        )
+        if (isFocused) {
+          val outlineColor = color.copy(alpha = 0.6f)
+          drawCircle(outlineColor, outlineSize.toPx() / 2, knobCenter)
+        }
+        drawCircle(brush, knobRadius, knobCenter)
+      }
+    }
+    .height(outlineSize)
+    .focusable(true, interactionSource)
+    .onKeyEvent {
+      when {
+        it.type == KeyEventType.KeyUp && it.key == Key.DirectionLeft -> {
+          onMoveLeft()
+          true
+        }
 
-                    it.type == KeyEventType.KeyUp && it.key == Key.DirectionRight -> {
-                        onMoveRight()
-                        true
-                    }
+        it.type == KeyEventType.KeyUp && it.key == Key.DirectionRight -> {
+          onMoveRight()
+          true
+        }
 
-                    else -> false
-                }
-            }
-    )
+        else -> false
+      }
+    })
 }

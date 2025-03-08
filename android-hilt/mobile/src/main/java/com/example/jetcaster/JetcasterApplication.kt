@@ -30,7 +30,13 @@ class JetcasterApplication : Application()
 //  ImageLoaderFactory
 {
 
+
+  override fun onCreate() {
+    super.onCreate()
+
+  }
+
   //  @Inject lateinit var imageLoader: ImageLoader
 
-   // override fun newImageLoader(): ImageLoader = imageLoader
+  // override fun newImageLoader(): ImageLoader = imageLoader
 }

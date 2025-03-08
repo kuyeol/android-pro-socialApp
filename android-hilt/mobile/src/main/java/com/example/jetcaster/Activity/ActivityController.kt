@@ -16,6 +16,7 @@
 
 package com.example.jetcaster.Activity
 
+
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.scaleOut
 import androidx.compose.material3.AlertDialog
@@ -24,17 +25,23 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.window.layout.DisplayFeature
 import com.example.jetcaster.R
+import com.example.jetcaster.ui.ChatBubble
+import com.example.jetcaster.ui.Message
 
+data class AppColors(
+  val primary: Color = Color.Blue,
+  val onPrimary: Color = Color.White
+)
 
-class ActivityController
-
-
-
+val LocalAppColors = staticCompositionLocalOf { AppColors() }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
@@ -42,27 +49,38 @@ fun ActivityController(
   displayFeatures: List<DisplayFeature>,
   appState: AppState = rememberJetcasterAppState()
 ) {
+  val appColors = AppColors(primary = Color.Green)
   val adaptiveInfo = currentWindowAdaptiveInfo()
   if (appState.isOnline) {
     NavHost(
       navController = appState.navController,
       startDestination = Screen.Home.route,
-
       popExitTransition = { scaleOut(targetScale = 0.9f) },
       popEnterTransition = { EnterTransition.None }
     ) {
 
       composable(Screen.Home.route) {
         backStackEntry ->
+        CompositionLocalProvider(
+          LocalAppColors provides appColors) {
+          MyScreen()
+        }
         Text("Home")
       }
-      composable(Screen.Player.route) {
 
-      }
     }
   } else {
     OfflineDialog { appState.refreshOnline() }
   }
+}
+
+@Composable
+fun MyScreen() {
+  // 암묵적으로 색상에 접근
+  val colors = LocalAppColors.current
+var strMe = Message("sss","dfff","dddd")
+  Text(text = "안녕하세요", color = colors.onPrimary)
+  ChatBubble(strMe)
 }
 
 @Composable

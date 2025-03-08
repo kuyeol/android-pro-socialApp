@@ -14,14 +14,6 @@ enum class NavItem(
   val route: KClass<*>,
   val baseRoute: KClass<*> = route,
 ) {
-  FOR_YOU(
-    selectedIcon = IconsPack.Check,
-    unselectedIcon = IconsPack.Close
-   // iconTextId = R.string.,
-    titleTextId = R.string.app_name,
-    //todo: feature 패키지 모듈 생성하여 추가
-//    route = ForYouRoute::class,
-//    baseRoute = ForYouBaseRoute::class,
-  ),
+
 
 }
