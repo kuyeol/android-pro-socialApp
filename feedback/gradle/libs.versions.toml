@@ -1,5 +1,6 @@
 [versions]
 
+coilCompose = "3.1.0"
 kotlin = "2.1.10"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -36,6 +37,11 @@ androidxCoreSplashscreen = "1.0.1"
 androidxNavigation = "2.8.8"
 
 moduleGraph = "2.7.1"
+roomGuava = "2.6.1"
+roomPaging = "2.6.1"
+roomRxjava2 = "2.6.1"
+roomRxjava3 = "2.6.1"
+roomTesting = "2.6.1"
 secrets = "2.0.1"
 constraintlayout = "2.1.4"
 lifecycleLivedataKtx = "2.6.1"
@@ -46,6 +52,13 @@ lifecycleRuntimeKtx = "2.6.1"
 
 [libraries]
 
+androidx-room-guava = { module = "androidx.room:room-guava", version.ref = "roomGuava" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomPaging" }
+androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "roomRxjava2" }
+androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomRxjava3" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomTesting" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -125,3 +138,4 @@ module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "module
 room = { id = "androidx.room", version.ref = "room" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "androidGradlePlugin" }

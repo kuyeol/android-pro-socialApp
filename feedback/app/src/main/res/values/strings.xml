@@ -5,4 +5,7 @@
   <string name="title_dashboard">Dashboard</string>
   <string name="title_notifications">Notifications</string>
   <string name="title_activity_main2">MainActivity2</string>
+  <string name="label_all">All Posts</string>
+  <string name="add_word">create</string>
+  <string name="title_testcontainer">ContainerA</string>
 </resources>

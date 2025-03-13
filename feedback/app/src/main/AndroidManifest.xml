@@ -4,8 +4,11 @@
   xmlns:tools="http://schemas.android.com/tools"
   >
 
+  <uses-permission android:name="android.permission.INTERNET" />
   <application
+    android:name=".AndroidApplication"
     android:allowBackup="true"
+    android:enableOnBackInvokedCallback="true"
     android:dataExtractionRules="@xml/data_extraction_rules"
     android:fullBackupContent="@xml/backup_rules"
     android:icon="@mipmap/ic_launcher"
@@ -13,20 +16,33 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/Theme.FeedBack"
-    tools:targetApi="31"
+
     >
+    <profileable
+      android:shell="true"
+      tools:targetApi="q"
+      />
     <activity
       android:name=".MainActivity"
-      android:exported="false"
+      android:exported="true"
       android:label="@string/title_activity_main"
       android:theme="@style/Theme.FeedBack"
-      />
-    <activity
-      android:name=".MainActivity2"
-      android:exported="false"
-      android:label="@string/title_activity_main2"
-      android:theme="@style/Theme.FeedBack"
-      />
+      >
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data android:scheme="https" />
+        <data android:host="www.nowinandroid.apps.samples.google.com" />
+      </intent-filter>
+    </activity>
+
   </application>
 
 </manifest>
