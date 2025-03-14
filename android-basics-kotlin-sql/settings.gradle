@@ -18,7 +18,7 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
-        mavenCentral()
+      mavenCentral()
     }
 }
 dependencyResolutionManagement {
@@ -26,7 +26,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+      maven { url "https://jitpack.io" }
+
     }
 }
 rootProject.name = "SQLDemo"
 include ':app'
+include ':sqlite'
