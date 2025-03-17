@@ -16,6 +16,7 @@
 
 package com.example.sqldemo
 
+import android.app.Application
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
@@ -31,15 +32,22 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.sqldemo.sqlite.DbOpener
 import com.example.sqldemo.sqlite.FReaderContract
 import com.example.sqldemo.ui.theme.SQLDemoTheme
+import com.example.sqldemo.user.HomeScreen
+import com.example.sqldemo.user.NewActivityScreen
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.time.Instant
 
 class MainActivity : ComponentActivity() {
   val dbOpener = DbOpener(this)
+
+  lateinit var mainApplication: AndroidApplication
 
   override fun onCreate(savedInstanceState : Bundle?) {
     super.onCreate(savedInstanceState)
@@ -63,6 +71,7 @@ class MainActivity : ComponentActivity() {
         .emailDao()
         .getAll()
     }
+    dbOpener.exportSchemaToSQLFile(this)
     val projection = arrayOf(BaseColumns._ID ,
                              FReaderContract.FEntry.COLUMN_NAME_TITLE ,
                              FReaderContract.FEntry.COLUMN_NAME_SUBTITLE)
@@ -80,8 +89,6 @@ class MainActivity : ComponentActivity() {
     )
     val itemIds = mutableListOf<Long>()
 
-
-
     fun dataClickevent() {
       col1 = "hi11"
       col2 = "ww111" + Instant.now()
@@ -97,6 +104,10 @@ class MainActivity : ComponentActivity() {
                                        values2
       )
     }
+
+var application = application as AndroidApplication
+
+
     setContent {
       SQLDemoTheme {
         // A surface container using the 'background' color from the theme
@@ -104,31 +115,57 @@ class MainActivity : ComponentActivity() {
           modifier = Modifier.fillMaxSize() ,
           color = MaterialTheme.colors.background
         ) {
-
-            Box(
-              modifier = Modifier.fillMaxSize() ,
-              contentAlignment = Alignment.Center
-            ) {
-              Text("The database is ready!")
-              Text(itemIds.toString())
-              Button(onClick = {dataClickevent() } )
-              {
-
-                Row{
-
-                  Text(projection.size.toString())
+          val navController = rememberNavController()
+          val userViewModel = application.user
+          NavHost(
+            navController = navController,
+            startDestination = Screen.Home.route
+          ) {
+            mainApplication.
+            composable(Screen.Home.route) {
+              HomeScreen(   navController ,
+                         userViewModel = mainApplication.userViewModel)
+            }
+            composable(
+              route = "${Screen.Detail.route}/{userId}" ,
+              arguments = listOf(
+                navArgument("userId") {
+                  type = NavType.IntType
                 }
-
+              )
+            ) { backStackEntry ->
+              val userId = backStackEntry.arguments?.getInt("userId")
+              DetailScreen(
+                navController = navController ,
+                userViewModel = mainApplication.userViewModel ,
+                userId = userId
+              )
+            }
+            composable(Screen.NewActivity.route) {
+              NewActivityScreen(navController)
+            }
+          }
+          Box(
+            modifier = Modifier.fillMaxSize() ,
+            contentAlignment = Alignment.Center
+          ) {
+            Text("The database is ready!")
+            Text(itemIds.toString())
+            Button(onClick = { dataClickevent() })
+            {
+              Row {
+                Text(projection.size.toString())
               }
             }
           }
         }
       }
     }
-
-    override fun onDestroy() {
-      super.onDestroy()
-    }
-
   }
+
+  override fun onDestroy() {
+    super.onDestroy()
+  }
+
+}
 

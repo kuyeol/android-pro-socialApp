@@ -3,6 +3,9 @@ package com.example.sqldemo
 import android.app.Application
 import android.content.Context
 
+
+
+
 class AndroidApplication : Application() {
 
   companion object {

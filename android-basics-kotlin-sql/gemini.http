@@ -1,0 +1,9 @@
+### GET request to example server
+POST http://182.218.135.247:3000/chat
+
+
+###
+
+POST http://182.218.135.247:9000/chat
+
+###
